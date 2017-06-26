@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.devopsbuddy.enums.PlansEnum;
+
 @Entity
 public class Plan implements Serializable {
 
@@ -18,6 +20,11 @@ public class Plan implements Serializable {
 	
 	public Plan() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Plan(PlansEnum planType) {
+		this.id = planType.getId();
+		this.name = planType.getPlanName();
 	}
 
 	public int getId() {

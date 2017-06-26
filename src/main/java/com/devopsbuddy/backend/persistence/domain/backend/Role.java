@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.devopsbuddy.enums.RolesEnum;
+
 @Entity
 public class Role implements Serializable {
 
@@ -25,6 +27,11 @@ public class Role implements Serializable {
 	
 	public Role() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Role(RolesEnum rolesType) {
+		this.id = rolesType.getId();
+		this.name = rolesType.getRoleName();
 	}
 
 	public int getId() {

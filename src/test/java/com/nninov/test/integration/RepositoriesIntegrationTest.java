@@ -44,32 +44,24 @@ public class RepositoriesIntegrationTest {
 
     @Test
     public void testCreatedNewPlan() throws Exception {
-        Plan basicPlan = createPlan(PlansEnum.BASIC);
+        Plan basicPlan = new Plan(PlansEnum.BASIC);
         planRepo.save(basicPlan);
         Plan retrievedPlan = planRepo.findOne(PlansEnum.BASIC.getId());
         Assert.assertNotNull(retrievedPlan);
     }
 
-    private Plan createPlan(PlansEnum planType) {
-        Plan result = new Plan();
-        result.setId(planType.getId());
-        result.setName(planType.getPlanName());
-        return result;
-    }
 
     @Test
     public void createNewUser() throws Exception {
-        Plan plan = createPlan(PlansEnum.BASIC);
+        Plan plan = new Plan(PlansEnum.BASIC);
         planRepo.save(plan);
 
         User user = UserUtils.createBasicUser("john", "jonh@mail.com");
         user.setPlan(plan);
 
-        Role role = createRole(RolesEnum.BASIC);
+        Role role = new Role(RolesEnum.BASIC);
         Set<UserRole> userRoles = new HashSet<>();
-        UserRole userRole = new UserRole();
-        userRole.setUser(user);
-        userRole.setRole(role);
+        UserRole userRole = new UserRole(user, role);
         userRoles.add(userRole);
 
         user.getUserRoles().addAll(userRoles);
@@ -91,12 +83,5 @@ public class RepositoriesIntegrationTest {
             Assert.assertNotNull(ur.getRole());
             Assert.assertTrue(ur.getRole().getId() != 0);
         }
-    }
-    
-    private Role createRole(RolesEnum roleType) {
-        Role result = new Role();
-        result.setId(roleType.getId());
-        result.setName(roleType.getRoleName());
-        return result;
     }
 }

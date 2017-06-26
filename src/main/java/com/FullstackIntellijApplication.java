@@ -1,14 +1,47 @@
 package com;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+import com.devopsbuddy.backend.persistence.domain.backend.Role;
+import com.devopsbuddy.backend.persistence.domain.backend.User;
+import com.devopsbuddy.backend.persistence.domain.backend.UserRole;
+import com.devopsbuddy.backend.service.UserService;
+import com.devopsbuddy.enums.PlansEnum;
+import com.devopsbuddy.enums.RolesEnum;
+import com.devopsbuddy.utils.UserUtils;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = "com.devopsbuddy.backend.persistence.repositories")
-public class FullstackIntellijApplication {
+public class FullstackIntellijApplication implements CommandLineRunner {
+	
+	/** The application logger */
+	private static final Logger LOG = LoggerFactory.getLogger(FullstackIntellijApplication.class);
+	
+	@Autowired
+	private UserService userService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(FullstackIntellijApplication.class, args);
+	}
+	
+	
+	
+	@Override
+	public void run(String... args) throws Exception {
+		LOG.info("Creating Basic and Pro plans in the database...");
+		User user = UserUtils.createBasicUser("app", "app@mail.com");
+		
+		Set<UserRole> userRoles = new HashSet<>();
+		userRoles.add(new UserRole(user, new Role(RolesEnum.ADMIN)));
+		LOG.debug("Creating user with username {}", user.getUsername());
+		userService.createUser(user, PlansEnum.PRO, userRoles);
+		LOG.info("User {} created", user.getUsername());
 	}
 }
