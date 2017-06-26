@@ -42,8 +42,6 @@ public class RepositoriesIntegrationTest {
         Assert.assertNotNull(userRepo);
     }
 
-    private static final int BASIC_PLAN_ID = 1;
-
     @Test
     public void testCreatedNewPlan() throws Exception {
         Plan basicPlan = createPlan(PlansEnum.BASIC);
@@ -88,13 +86,13 @@ public class RepositoriesIntegrationTest {
         Assert.assertNotNull(newlyCreatedUser.getPlan());
         Assert.assertNotNull(newlyCreatedUser.getPlan().getId());
         Set<UserRole> newlyCreatedUserRoles = newlyCreatedUser.getUserRoles();
+                
         for (UserRole ur : newlyCreatedUserRoles) {
             Assert.assertNotNull(ur.getRole());
-
             Assert.assertTrue(ur.getRole().getId() != 0);
         }
     }
-
+    
     private Role createRole(RolesEnum roleType) {
         Role result = new Role();
         result.setId(roleType.getId());
