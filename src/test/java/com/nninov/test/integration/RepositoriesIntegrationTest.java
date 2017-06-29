@@ -13,7 +13,9 @@ import com.devopsbuddy.enums.RolesEnum;
 import com.devopsbuddy.utils.UserUtils;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,6 +37,9 @@ public class RepositoriesIntegrationTest {
     @Autowired
     private UserRepository userRepo;
 
+    @Rule
+    public TestName testName = new TestName();
+
     @Before
     public void init() {
         Assert.assertNotNull(planRepo);
@@ -53,7 +58,9 @@ public class RepositoriesIntegrationTest {
 
     @Test
     public void createNewUser() throws Exception {
-        User basicUser = createUser("newUser", "newuser@dsds.com");
+        String userName = testName.getMethodName();
+        String email = testName.getMethodName() + "@blabslbas.com";
+        User basicUser = createUser(userName, email);
 
         User newlyCreatedUser = userRepo.findOne(basicUser.getId());
         Assert.assertNotNull(newlyCreatedUser);
@@ -70,7 +77,9 @@ public class RepositoriesIntegrationTest {
 
     @Test
     public void testDeleteUser() throws Exception {
-        User user = createUser("userDelete", "delete@cd.com");
+        String userName = testName.getMethodName();
+        String email = testName.getMethodName() + "@blabslbas.com";
+        User user = createUser(userName, email);
         userRepo.delete(user.getId());
     }
 

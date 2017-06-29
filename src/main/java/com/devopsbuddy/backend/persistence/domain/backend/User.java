@@ -177,14 +177,6 @@ public class User implements Serializable, UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
-    /*
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> authorities = new HashSet<>();
-        userRoles.forEach(ur -> authorities.add(new Authority(ur.getRole().getName())));
-        return authorities;
-    }*/
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
