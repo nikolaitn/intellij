@@ -53,26 +53,9 @@ public class RepositoriesIntegrationTest {
 
     @Test
     public void createNewUser() throws Exception {
-        Plan plan = new Plan(PlansEnum.BASIC);
-        planRepo.save(plan);
+        User basicUser = createUser("newUser", "newuser@dsds.com");
 
-        User user = UserUtils.createBasicUser("john", "jonh@mail.com");
-        user.setPlan(plan);
-
-        Role role = new Role(RolesEnum.BASIC);
-        Set<UserRole> userRoles = new HashSet<>();
-        UserRole userRole = new UserRole(user, role);
-        userRoles.add(userRole);
-
-        user.getUserRoles().addAll(userRoles);
-
-        for (UserRole ur : userRoles) {
-            roleRepo.save(ur.getRole());
-        }
-
-        user = userRepo.save(user);
-        User newlyCreatedUser = userRepo.findOne(user.getId());
-
+        User newlyCreatedUser = userRepo.findOne(basicUser.getId());
         Assert.assertNotNull(newlyCreatedUser);
         Assert.assertTrue(newlyCreatedUser.getId() != 0);
         Assert.assertNotNull(newlyCreatedUser.getPlan());
@@ -83,5 +66,31 @@ public class RepositoriesIntegrationTest {
             Assert.assertNotNull(ur.getRole());
             Assert.assertTrue(ur.getRole().getId() != 0);
         }
+    }
+
+    @Test
+    public void testDeleteUser() throws Exception {
+        User user = createUser("userDelete", "delete@cd.com");
+        userRepo.delete(user.getId());
+    }
+
+    private User createUser(String name, String email) {
+        Plan basicBlan = new Plan(PlansEnum.BASIC);
+        planRepo.save(basicBlan);
+
+        User basicUser = UserUtils.createBasicUser(name, email);
+        basicUser.setPlan(basicBlan);
+
+        Role basicRole = new Role(RolesEnum.BASIC);
+        roleRepo.save(basicRole);
+
+        UserRole userRole = new UserRole(basicUser, basicRole);
+        Set<UserRole> userRoles = new HashSet<>();
+        userRoles.add(userRole);
+        basicUser.getUserRoles().addAll(userRoles);
+
+        userRepo.save(basicUser);
+
+        return basicUser;
     }
 }
