@@ -15,10 +15,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Set;
+import java.util.UUID;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = FullstackIntellijApplication.class)
-public class UserIntegrationTest extends  AbstractIntegrationTest {
+public class UserRepositoryIntegrationTest extends  AbstractIntegrationTest {
 
     @Rule
     public TestName testName = new TestName();
@@ -60,5 +61,29 @@ public class UserIntegrationTest extends  AbstractIntegrationTest {
     public void testDeleteUser() throws Exception {
         User user = createUserFromTestName(testName);
         userRepo.delete(user.getId());
+    }
+
+    @Test
+    public void testFindUserByEmail() throws  Exception {
+        User user = createUserFromTestName(testName);
+
+        User foundUser = userRepo.findByEmail(user.getEmail());
+        Assert.assertNotNull(foundUser);
+        Assert.assertNotNull(foundUser.getId());
+    }
+
+    @Test
+    public void testUpdateUserPassword() throws Exception {
+        User user = createUserFromTestName(testName);
+        Assert.assertNotNull(user);
+        Assert.assertNotNull(user.getId());
+
+        String newPassword = UUID.randomUUID().toString();
+
+        userRepo.updateUserPassword(user.getId(), newPassword);
+
+        user = userRepo.findOne(user.getId());
+        Assert.assertEquals(newPassword, user.getPassword());
+
     }
 }

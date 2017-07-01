@@ -3,15 +3,12 @@ package com.nninov.test.integration;
 import com.FullstackIntellijApplication;
 import com.devopsbuddy.backend.persistence.domain.backend.PasswordResetToken;
 import com.devopsbuddy.backend.persistence.domain.backend.User;
-import com.devopsbuddy.backend.persistence.repositories.PasswordResetTokenRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -26,12 +23,6 @@ import java.util.stream.Collectors;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = FullstackIntellijApplication.class)
 public class PasswordResetTokenIntegrationTest extends AbstractIntegrationTest {
-
-    @Value("${token.expiration.length.minutes}")
-    private int expirationTimeInMinutes;
-
-    @Autowired
-    private PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Rule
     public TestName testName = new TestName();
@@ -132,19 +123,6 @@ public class PasswordResetTokenIntegrationTest extends AbstractIntegrationTest {
         List<String> tokensAsList = tokens.stream().map(prt -> prt.getToken()).collect(Collectors.toList());
         List<String> actualTokensAsList = actualTokens.stream().map(prt -> prt.getToken()).collect(Collectors.toList());
         Assert.assertEquals(tokensAsList, actualTokensAsList);
-
-    }
-
-
-    //------------------> Private methods
-
-    private PasswordResetToken createPasswordResetToken(String token, User user, LocalDateTime now) {
-
-
-        PasswordResetToken passwordResetToken = new PasswordResetToken(token, user, now, expirationTimeInMinutes);
-        passwordResetTokenRepository.save(passwordResetToken);
-        Assert.assertNotNull(passwordResetToken.getId());
-        return passwordResetToken;
 
     }
 }
