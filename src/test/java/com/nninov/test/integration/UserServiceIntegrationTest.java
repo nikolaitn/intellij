@@ -23,7 +23,7 @@ import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = FullstackIntellijApplication.class)
-public class UserServiceIntegrationTest {
+public class UserServiceIntegrationTest extends AbstractIntegrationTest {
 
 	@Autowired
 	private UserService userService;
