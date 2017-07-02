@@ -9,6 +9,6 @@ public interface EmailService {
 	
 	void sendFeedbackEmail(FeedbackPojo feedbackPojo);
 	
-	void sendGeneraicEmailMessage(SimpleMailMessage message);
+	void sendGenericEmailMessage(SimpleMailMessage message);
 
 }

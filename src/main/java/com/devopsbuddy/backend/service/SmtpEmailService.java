@@ -13,7 +13,7 @@ public class SmtpEmailService extends AbstractEmailService {
 	private MailSender mailSender;
 	
 	@Override
-	public void sendGeneraicEmailMessage(SimpleMailMessage message) {
+	public void sendGenericEmailMessage(SimpleMailMessage message) {
 		LOG.debug("Sending email for {}", message);
 		mailSender.send(message);
 		LOG.info("Mail sent.");
