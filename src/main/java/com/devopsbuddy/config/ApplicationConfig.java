@@ -10,7 +10,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = "com.devopsbuddy.backend.persistence.repositories")
 @EntityScan(basePackages = "com.devopsbuddy.backend.persistence.domain.backend")
 @EnableTransactionManagement
-@PropertySource("file:d:/projects/udemy/full_stack/fullstack_intellij/application-common.properties")
+//@PropertySource("file:d:/projects/udemy/full_stack/fullstack_intellij/application-common.properties")
+@PropertySource("file:d:/workspaces/sample_projects/intellij/application-common.properties")
 public class ApplicationConfig {
 
 }

@@ -54,7 +54,7 @@ public class UserService {
         return user;
     }
 
-    public void updatePassword(long userId, String password) {
+    public void updateUserPassword(long userId, String password) {
 	    password = passwordEncoder.encode(password);
 	    userRepository.updateUserPassword(userId, password);
     }
