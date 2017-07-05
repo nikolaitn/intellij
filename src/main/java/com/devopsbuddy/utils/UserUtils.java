@@ -6,9 +6,7 @@ import com.devopsbuddy.web.domain.frontend.BasicAccountPayload;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * Created by goro on 6/25/2017.
- */
+
 public class UserUtils {
 
     /**
