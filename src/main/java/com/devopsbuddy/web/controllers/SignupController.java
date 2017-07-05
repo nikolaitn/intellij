@@ -76,7 +76,7 @@ public class SignupController {
     
     @RequestMapping(value = SIGNUP_URL_MAPPING, method = RequestMethod.POST)
     public String signUpPost(@RequestParam(name = "planId", required = true) int planId,
-                             /*@RequestParam(name = "file", required = false) MultipartFile file,*/
+                             @RequestParam(name = "file", required = false) MultipartFile file,
                              @ModelAttribute(PAYLOAD_MODEL_KEY_NAME) @Valid ProAccountPayload payload,
                              ModelMap model) throws IOException {
 
@@ -118,9 +118,9 @@ public class SignupController {
         User user = UserUtils.fromWebUserToDomainUser(payload);
 
         // Stores the profile image on Amazon S3 and stores the URL in the user's record
-/*        if (file != null && !file.isEmpty()) {
+        if (file != null && !file.isEmpty()) {
 
-            String profileImageUrl = s3Service.storeProfileImage(file, payload.getUsername());
+            String profileImageUrl = null; //s3Service.storeProfileImage(file, payload.getUsername());
             if (profileImageUrl != null) {
                 user.setProfileImageUrl(profileImageUrl);
             } else {
@@ -128,7 +128,7 @@ public class SignupController {
                         " be created without the image");
             }
 
-        }*/
+        }
 
         // Sets the Plan and the Roles (depending on the chosen plan)
         LOG.debug("Retrieving plan from the database");
