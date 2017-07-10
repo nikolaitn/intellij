@@ -20,6 +20,7 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 @EnableTransactionManagement
 //@PropertySource("file:d:/projects/udemy/full_stack/fullstack_intellij/application-common.properties")
 @PropertySource("file:d:/workspaces/sample_projects/intellij/application-common.properties")
+@PropertySource("file:d:/workspaces/sample_projects/intellij/stripe.properties")
 public class ApplicationConfig {
 	
 	@Value("${aws.s3.profile}")
