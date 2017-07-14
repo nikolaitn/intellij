@@ -41,25 +41,35 @@ public class UserService {
 	
 	@Transactional
     public User createUser(User user, PlansEnum plansEnum, Set<UserRole> userRoles) {
-        String password = passwordEncoder.encode(user.getPassword());
-        user.setPassword(password);
-		Plan plan = new Plan(plansEnum);
-        // It makes sure the plans exist in the database
-        if (!planRepository.exists(plansEnum.getId())) {
-            plan = planRepository.save(plan);
+		User localUser = userRepository.findByEmail(user.getEmail());
+
+        if (localUser != null) {
+            LOG.info("User with username {} and email {} already exist. Nothing will be done. ",
+                    user.getUsername(), user.getEmail());
+        } else {
+
+            String encryptedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encryptedPassword);
+
+            Plan plan = new Plan(plansEnum);
+            // It makes sure the plans exist in the database
+            if (!planRepository.exists(plansEnum.getId())) {
+                plan = planRepository.save(plan);
+            }
+
+            user.setPlan(plan);
+
+            for (UserRole ur : userRoles) {
+                roleRepository.save(ur.getRole());
+            }
+
+            user.getUserRoles().addAll(userRoles);
+
+            localUser = userRepository.save(user);
+
         }
 
-        user.setPlan(plan);
-
-        for (UserRole ur : userRoles) {
-            roleRepository.save(ur.getRole());
-        }
-
-        user.getUserRoles().addAll(userRoles);
-
-        user = userRepository.save(user);
-
-        return user;
+        return localUser;
     }
 
 	@Transactional
